@@ -4,18 +4,28 @@ import React, { useState } from 'react';
 import Image from 'next/image';
 import { Menu, Search, X } from 'lucide-react';
 import Link from 'next/link';
+import { signOut } from 'next-auth/react';
 
-const Navbar = () => {
+type UserProps = {
+  user?: {
+    name?: string | null | undefined;
+    email?: string | null | undefined;
+    image?: string | null | undefined;
+  };
+};
+
+const Navbar = ({ session }: { session: UserProps | null }) => {
+  console.log(session);
+
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isSearchOpen, setIsSearchOpen] = useState(false);
 
   const navItems = [
-    { text: 'রোগ ও সমস্যা', href: '#' },
-    { text: 'যৌন স্বাস্থ্য', href: '#' },
+    { text: 'রোগ ও সমস্যা', href: '/disease-and-health' },
+    { text: 'যৌন স্বাস্থ্য', href: '/sexual-health' },
     { text: 'গর্ভাবস্থা', href: '#' },
     { text: 'পেটের সমস্যা ও রোগ', href: '#' },
     { text: 'সুস্থ থাকুন', href: '#' },
-    { text: 'Login', href: '/login' },
   ];
 
   const SearchPopup = () => (
@@ -65,6 +75,20 @@ const Navbar = () => {
                   {item.text}
                 </a>
               ))}
+
+              {session?.user ? (
+                <button
+                  onClick={() => signOut()}
+                  className="px-4 py-2 bg-emerald-500 text-white rounded-md hover:bg-emerald-600 transition duration-200"
+                >
+                  Logout
+                </button>
+              ) : (
+                <button className="px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600 transition duration-200">
+                  <a href="/login">Login</a>
+                </button>
+              )}
+
               <button
                 onClick={() => setIsSearchOpen(true)}
                 type="button"
@@ -111,6 +135,18 @@ const Navbar = () => {
                   </a>
                 ))}
               </div>
+              {session?.user ? (
+                <button
+                  onClick={() => signOut()}
+                  className="px-4 py-2 bg-emerald-500 text-white rounded-md hover:bg-emerald-600 transition duration-200"
+                >
+                  Logout
+                </button>
+              ) : (
+                <button className="px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600 transition duration-200">
+                  <a href="/login">Login</a>
+                </button>
+              )}
             </div>
           )}
         </div>
