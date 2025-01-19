@@ -1,5 +1,6 @@
 'use client';
 
+import { signIn } from 'next-auth/react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useForm } from 'react-hook-form';
@@ -91,7 +92,14 @@ const LoginPage = () => {
         {/* Social Login */}
         <div className="mt-6 text-center">
           <p className="text-sm text-gray-500 mb-3">Or Sign Up Using</p>
-          <button type="button">
+          <button
+            type="button"
+            onClick={() => {
+              signIn('google', {
+                callbackUrl: 'http://localhost:3000/',
+              });
+            }}
+          >
             <Image
               src="https://www.freepnglogos.com/uploads/google-logo-png/google-logo-png-webinar-optimizing-for-success-google-business-webinar-13.png"
               width={50}
