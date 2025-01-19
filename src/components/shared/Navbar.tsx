@@ -15,6 +15,7 @@ const Navbar = () => {
     { text: 'গর্ভাবস্থা', href: '#' },
     { text: 'পেটের সমস্যা ও রোগ', href: '#' },
     { text: 'সুস্থ থাকুন', href: '#' },
+    { text: 'Login', href: '/register' },
   ];
 
   const SearchPopup = () => (
