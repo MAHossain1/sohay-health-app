@@ -1,7 +1,9 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 'use client';
 
+import { registerUser } from '@/utlis/actions/registerUser';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 import { useForm } from 'react-hook-form';
 
 export type UserData = {
@@ -17,12 +19,22 @@ const RegisterPage = () => {
     formState: { errors },
   } = useForm<UserData>();
 
-  const onSubmit = async (data: UserData) => {
-    console.log(data);
+  const router = useRouter();
 
+  const onSubmit = async (data: UserData) => {
     try {
+      console.log(data);
       // Registration logic
+      const res = await registerUser(data);
+
+      if (res?.message) {
+        console.log(res);
+        alert(res.message);
+        router.push('/login');
+      }
+      // console.log(res);
     } catch (err: any) {
+      alert(err.message);
       console.error(err.message);
       throw new Error(err.message);
     }
